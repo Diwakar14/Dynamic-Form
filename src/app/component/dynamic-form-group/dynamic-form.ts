@@ -1,7 +1,7 @@
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ControlBaseType } from './models/ControlBaseType';
+import { FormControlBase } from './models/ControlBaseType';
 
-export const toFormGroup = (formGroups: ControlBaseType<string>[]) => {
+export const toFormGroup = (formGroups: FormControlBase<string>[]) => {
   const group: any = {};
 
   formGroups.forEach((control) => {

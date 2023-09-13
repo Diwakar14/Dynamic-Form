@@ -1,0 +1,9 @@
+<div class="container">
+  <ng-template ngFor let-screen [ngForOf]="wizard.screens" let-i="index">
+    <app-screen
+      [screen]="screen"
+      (onNext)="next(i)"
+      (onBack)="next(i)"
+    ></app-screen>
+  </ng-template>
+</div>

@@ -1,29 +1,27 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ControlBaseType, DropdownOptions } from './models/ControlBaseType';
+import { FormControlBase, DropdownOptions } from './models/ControlBaseType';
 
-export interface IControlChange {
-  key: string;
-  value: string;
+export class ControlChange {
+  key: string = '';
+  value: string = '';
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class FormDataService {
-  private changeMap = new Map<string, string>();
+  private changeMap = new ControlChange();
   private dropdownDataMap = new Map<string, Array<DropdownOptions>>();
 
-  private controlChange = new BehaviorSubject<Map<string, string>>(
-    this.changeMap
-  );
+  private controlChange = new BehaviorSubject<ControlChange>(this.changeMap);
 
   private dropdownChange = new BehaviorSubject<
     Map<string, Array<DropdownOptions>>
   >(this.dropdownDataMap);
 
-  private updateControlChange = new BehaviorSubject<ControlBaseType<string>>(
-    new ControlBaseType()
+  private updateControlChange = new BehaviorSubject<FormControlBase<string>>(
+    new FormControlBase()
   );
 
   constructor() {}
@@ -41,19 +39,18 @@ export class FormDataService {
     return this.dropdownChange;
   }
 
-  setControlChange(change: IControlChange) {
-    this.changeMap.set(change.key, change.value);
-    this.controlChange.next(this.changeMap);
+  setControlChange(change: ControlChange) {
+    this.controlChange.next(change);
   }
 
   getControlChange(key: string) {
-    return this.controlChange.value.get(key);
+    return this.controlChange.value;
   }
 
   get controlState() {
     return this.updateControlChange;
   }
-  updateControl(control: ControlBaseType<string>) {
+  updateControl(control: FormControlBase<string>) {
     this.updateControlChange.next(control);
   }
 }

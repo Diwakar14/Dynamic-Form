@@ -1,5 +1,5 @@
-import { ControlBaseType } from './ControlBaseType';
+import { FormControlBase } from './ControlBaseType';
 
-export class DropdownControl extends ControlBaseType<string> {
+export class DropdownControl extends FormControlBase<string> {
   override controlType: string = 'Dropdown';
 }

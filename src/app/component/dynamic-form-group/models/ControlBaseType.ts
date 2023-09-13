@@ -10,24 +10,24 @@ export interface DropdownOptions {
 
 // There are two ways to load data, static data using options property and
 // other way is to use API to get the data for
-export class ControlBaseType<T> {
+export class FormControlBase<T> {
   value: T | undefined;
   key: string;
   label: string;
+
+  placeholder: string;
+  labelWidth: string;
+  controlWidth: string;
+
   required: boolean;
   order: number;
   controlType: string;
   type: string;
   disable: boolean;
   options: DropdownOptions[];
+  vertical: boolean;
 
   emitEvent: boolean; // Emit changes to the control to global store
-  listenEvent: boolean; // Listen to changes from different controls
-  depKey: string; // Key on which the value of this control depends
-
-  getDataFromService: boolean; // Get data from api
-  serviceConfig: ServiceConfig; // Config for calling the API
-
   getOptionDataFromStore: boolean;
   allowUpdate: boolean;
 
@@ -36,40 +36,42 @@ export class ControlBaseType<T> {
       value?: T;
       key?: string;
       label?: string;
+
+      labelWidth?: string;
+      controlWidth?: string;
+      placeholder?: string;
+
       required?: boolean;
       order?: number;
       controlType?: string;
       type?: string;
       disable?: boolean;
       options?: DropdownOptions[];
+      vertical?: boolean;
 
       emitEvent?: boolean;
-      listenEvent?: boolean;
-      depKey?: string;
-
-      getDataFromService?: boolean;
       getOptionDataFromStore?: boolean;
       allowUpdate?: boolean;
-      serviceConfig?: ServiceConfig;
     } = {}
   ) {
     this.value = options.value;
     this.key = options.key || '';
     this.label = options.label || '';
+
+    this.placeholder = options.placeholder || '';
+    this.labelWidth = options.labelWidth || 'col-md-3';
+    this.controlWidth = options.controlWidth || 'col-md-9';
+
     this.required = !!options.required;
     this.order = options.order === undefined ? 1 : options.order;
     this.controlType = options.controlType || 'Input';
     this.type = options.type || '';
     this.disable = options.disable || false;
     this.options = options.options || [];
+    this.vertical = options.vertical || false;
 
     this.emitEvent = options.emitEvent || false;
-    this.listenEvent = options.listenEvent || false;
-    this.depKey = options.depKey || '';
-
-    this.getDataFromService = options.getDataFromService || false;
     this.getOptionDataFromStore = options.getOptionDataFromStore || false;
     this.allowUpdate = options.allowUpdate || false;
-    this.serviceConfig = options.serviceConfig || new ServiceConfig();
   }
 }

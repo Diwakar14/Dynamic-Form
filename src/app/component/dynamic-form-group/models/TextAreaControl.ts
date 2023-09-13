@@ -1,5 +1,5 @@
-import { ControlBaseType } from './ControlBaseType';
+import { FormControlBase } from './ControlBaseType';
 
-export class TextAreaControl extends ControlBaseType<string> {
+export class TextAreaControl extends FormControlBase<string> {
   override controlType: string = 'Textarea';
 }

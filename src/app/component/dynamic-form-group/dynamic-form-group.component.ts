@@ -1,6 +1,4 @@
 import {
-  AfterViewChecked,
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   EventEmitter,
@@ -10,10 +8,9 @@ import {
   Output,
 } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
-import { ControlBaseType, DropdownOptions } from './models/ControlBaseType';
-import { FormDataService, IControlChange } from './form-data.service';
+import { FormControlBase, DropdownOptions } from './models/ControlBaseType';
+import { FormDataService, ControlChange } from './form-data.service';
 import { Subscription, debounceTime, distinctUntilChanged } from 'rxjs';
-import { toFormGroup } from './dynamic-form';
 
 @Component({
   selector: 'app-dynamic-form-group',
@@ -21,7 +18,7 @@ import { toFormGroup } from './dynamic-form';
   styleUrls: ['./dynamic-form-group.component.scss'],
 })
 export class DynamicFormGroupComponent implements OnInit, OnDestroy {
-  @Input() fControl!: ControlBaseType<string>;
+  @Input() fControl!: FormControlBase<string>;
   @Input() form!: FormGroup;
 
   @Output() controlChange = new EventEmitter();
@@ -66,12 +63,11 @@ export class DynamicFormGroupComponent implements OnInit, OnDestroy {
 
   updateFormControl() {
     const control$ = this.dataStoreService.controlState.subscribe({
-      next: (value: ControlBaseType<string>) => {
+      next: (value: FormControlBase<string>) => {
         if (this.fControl.key === value.key) {
           this.fControl = value; // Update Control Object
 
-          if (this.fControl.value != value.value)
-            this.form.get(this.fControl.key)?.setValue(value.value);
+          this.form.get(this.fControl.key)?.setValue(value.value);
 
           if (this.fControl.disable)
             this.form.get(this.fControl.key)?.disable();
@@ -106,7 +102,7 @@ export class DynamicFormGroupComponent implements OnInit, OnDestroy {
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe({
         next: (value: any) => {
-          let change: IControlChange = {
+          let change: ControlChange = {
             key: this.fControl.key,
             value: value,
           };

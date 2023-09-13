@@ -1,5 +1,5 @@
-import { ControlBaseType } from './ControlBaseType';
+import { FormControlBase } from './ControlBaseType';
 
-export class CheckboxControl extends ControlBaseType<string> {
+export class CheckboxControl extends FormControlBase<string> {
   override controlType: string = 'Checkbox';
 }

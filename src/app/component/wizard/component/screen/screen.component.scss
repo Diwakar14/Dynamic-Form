@@ -1,0 +1,22 @@
+header {
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  background-color: #a4c3a2;
+  color: white;
+}
+.desc {
+  background-color: #eee;
+  padding: 1rem;
+  font-size: 0.9rem;
+}
+
+.content {
+  padding: 2rem 2rem 1rem;
+  background-color: white;
+}
+
+footer {
+  display: flex;
+  justify-content: end;
+  padding: 1rem 2rem;
+}

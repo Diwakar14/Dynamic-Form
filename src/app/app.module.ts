@@ -7,9 +7,16 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DynamicFormGroupComponent } from './component/dynamic-form-group/dynamic-form-group.component';
 import { HttpClientModule } from '@angular/common/http';
+import { WizardComponent } from './component/wizard/wizard.component';
+import { ScreenComponent } from './component/wizard/component/screen/screen.component';
 
 @NgModule({
-  declarations: [AppComponent, DynamicFormGroupComponent],
+  declarations: [
+    AppComponent,
+    DynamicFormGroupComponent,
+    WizardComponent,
+    ScreenComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

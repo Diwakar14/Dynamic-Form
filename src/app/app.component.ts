@@ -2,19 +2,20 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { toFormGroup } from './component/dynamic-form-group/dynamic-form';
 import {
-  ControlBaseType,
+  FormControlBase,
   DropdownOptions,
 } from './component/dynamic-form-group/models/ControlBaseType';
 import { DropdownControl } from './component/dynamic-form-group/models/DropdownControl';
 import { CountryService } from './services/country.service';
 import {
+  ControlChange,
   FormDataService,
-  IControlChange,
 } from './component/dynamic-form-group/form-data.service';
 import { Subscription, map } from 'rxjs';
 import { CheckboxControl } from './component/dynamic-form-group/models/CheckboxControl';
 import { InputControl } from './component/dynamic-form-group/models/InputControl';
 import { RadioControl } from './component/dynamic-form-group/models/RadioControl';
+import { TextAreaControl } from './component/dynamic-form-group/models/TextAreaControl';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,7 @@ import { RadioControl } from './component/dynamic-form-group/models/RadioControl
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'dynamic-form';
-  controls: ControlBaseType<string>[] = [
+  controls: FormControlBase<string>[] = [
     new InputControl({
       key: 'name',
       label: 'Name',
@@ -76,13 +77,17 @@ export class AppComponent implements OnInit, OnDestroy {
       emitEvent: true,
       getOptionDataFromStore: true,
     }),
-
     new DropdownControl({
       key: 'nativeName',
       label: 'Native Name',
       order: 2,
       required: false,
-      depKey: 'country',
+    }),
+    new TextAreaControl({
+      key: 'address',
+      label: 'Address',
+      order: 2,
+      required: false,
     }),
     new CheckboxControl({
       key: 'agree',
@@ -109,12 +114,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   handleControlChange() {
     const listen$ = this.dataStoreService.controlChanges$.subscribe({
-      next: (value: Map<string, string>) => {
-        let val = value.get('country');
-        if (val) {
-          this.getTranslation('translation', val);
+      next: (value: ControlChange) => {
+        if (value.key === 'country') {
+          this.getTranslation('translation', value.value);
         }
-        console.log(value);
       },
     });
     this.subContainer$.add(listen$);
@@ -137,7 +140,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
           let control = this.controls.find(
             (i) => i.key === 'phone'
-          ) as ControlBaseType<string>;
+          ) as FormControlBase<string>;
           this.dataStoreService.updateControl({
             ...control,
             value: '6206311964',

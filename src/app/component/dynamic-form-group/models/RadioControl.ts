@@ -1,5 +1,5 @@
-import { ControlBaseType } from './ControlBaseType';
+import { FormControlBase } from './ControlBaseType';
 
-export class RadioControl extends ControlBaseType<string> {
+export class RadioControl extends FormControlBase<string> {
   override controlType: string = 'Radio';
 }
